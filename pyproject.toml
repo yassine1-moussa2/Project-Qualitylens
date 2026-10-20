@@ -1,0 +1,31 @@
+[project]
+name = "qualitylens"
+version = "0.1.0"
+description = "Data quality and drift monitoring for ML models and data pipelines"
+readme = "README.md"
+authors = [
+    { name = "yassine2004", email = "yassine.moussa2004@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "pyarrow>=17.0",
+    "pyyaml>=6.0",
+    "scipy>=1.14",
+]
+
+[project.scripts]
+qualitylens = "qualitylens.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,35 @@
+# QualityLens check configuration.
+# Draft format: the quality and drift sections are read starting at steps 3 and 4.
+
+datasets:
+  reference: data/reference.csv   # what "normal" looks like (e.g. training data)
+  current: data/current.csv       # the new batch to check
+  parse_dates: [order_date]
+
+quality:
+  - rule: not_null
+    column: income
+    max_null_pct: 0.05
+  - rule: unique
+    column: order_id
+  - rule: range
+    column: order_amount
+    min: 0
+    max: 2000
+  - rule: allowed_values
+    column: product_category
+    values: [electronics, books, clothing, home, sports]
+  - rule: regex
+    column: email
+    pattern: '^[^@\s]+@[^@\s]+\.[^@\s]+$'
+
+drift:
+  numeric:
+    columns: [age, income, order_amount]
+    tests: [psi, ks]
+    psi_threshold: 0.2      # common alarm level
+    ks_pvalue: 0.05
+  categorical:
+    columns: [country, product_category]
+    tests: [chi_square]
+    pvalue: 0.05
